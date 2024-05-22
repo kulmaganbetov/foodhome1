@@ -1,0 +1,12 @@
+<h2>Заказ №{{ order.id }}</h2>
+    <p>Статус: {{ order.get_status_display }}</p>
+    <p>Время доставки: {{ order.delivery_time }}</p>
+
+    <h3>Детали заказа</h3>
+    <ul>
+        {% for item in order.items.all %}
+            <li>{{ item.good.name }} - Количество: {{ item.quantity }} - Цена: {{ item.get_cost }}</li>
+        {% endfor %}
+    </ul>
+
+    <p>Итоговая стоимость: {{ order.get_total_cost }}</p>

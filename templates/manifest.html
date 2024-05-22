@@ -1,0 +1,33 @@
+<script type="text/Javascript">
+  var logo_src = "https://shy-goose-26.loca.lt" + "{{logo}}"
+  var myDynamicManifest = {
+    "name": "{{slug}}",
+    "short_name": "{{slug}}",
+    "start_url": "https://shy-goose-26.loca.lt/{{slug}}",
+    "display": "standalone",
+    "background_color": "#FFF",
+    "theme_color": "#493174",
+    "description": "{{slug}}",
+    "dir": "ltr",
+    "lang": "en-US",
+    "orientation": "any",
+    "icons": [
+        {
+          "src": logo_src,
+          "sizes": "48x48"
+        },
+        {
+          "src": logo_src,
+          "sizes": "96x96 128x128 144x144 256x256"
+        },
+        {
+          "src": logo_src,
+          "sizes": "257x257"
+        }
+    ]
+  }
+  const stringManifest = JSON.stringify(myDynamicManifest);
+  const blob = new Blob([stringManifest], {type: 'application/json'});
+  const manifestURL = URL.createObjectURL(blob);
+  document.querySelector('#manifest').setAttribute('href', manifestURL);
+</script>

@@ -1,0 +1,234 @@
+﻿<html lang="en" class="">
+   <head>
+      <title>go-menu</title>
+      <link rel="manifest" id="manifest">
+      {% load static %}
+      {% load pwa %}
+      {% load construct_tags %}
+      {% progressive_web_app_meta %}
+      <meta charset="utf-8">
+      <meta http-equiv="cache-control" content="no-cache">
+      <meta http-equiv="expires" content="0">
+      <meta http-equiv="pragma" content="no-cache">
+      <meta name="theme-color" content="#fff">
+      <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/construct_site_food/main.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/construct_site_food/style.css' %}">
+      <style>
+         /* Стили для верхнего меню */
+#main {
+    float: right;
+    margin-right: 20px; /* Регулируйте отступ справа по необходимости */
+}
+
+#main a {
+    color: #333; /* Цвет текста ссылок */
+    text-decoration: none; /* Убираем подчеркивание у ссылок */
+    margin-left: 10px; /* Отступ между ссылками */
+    font-size: 16px; /* Размер шрифта ссылок */
+    font-weight: normal; /* Насыщенность шрифта */
+}
+
+#main a:hover {
+    color: #007bff; /* Цвет текста ссылок при наведении */
+    text-decoration: underline; /* Добавляем подчеркивание при наведении */
+}
+
+#main a b {
+    font-weight: bold; /* Делаем текст жирным */
+}
+
+      </style>
+   </head>
+   <body cz-shortcut-listen="true" class="">
+      <div id="page-container">
+         <div id="root">
+            <span>
+               <div>
+                  <div class="height-25 bg-white">
+                     <div id="main" style="float:right">
+                        <a href="{% url 'construct_site_food:order_list' %}"><b>Мои заказы</b></a> /
+                        <a href="/{{request.user}}">{{request.user}}</a> -
+                        <a href="{% url 'logout' %}">Выйти</a>
+                     </div>
+
+                     {% get_photo 'logo' slug 'img/default_logo.png' as logo  %}
+                     {% get_text 'site_text' slug 'Название компании' as logo_text %}
+                     {% get_text 'information' slug 'Информацию о компании' as information %}
+                     <a class="no-click" href="#">
+                        <div class="pt-20">
+                           <div class="block-content block-content-full pt-2">
+                              <img src="{{logo}}" alt="go-menu" class="restaurant-image mt-0">
+                           </div>
+                           <div class="block-content block-content-full restaurant-info">
+                              <h4 class="font-w600 mb-5 text-dark">{{logo_text|safe}}</h4>
+                              <div class="font-size-sm text-muted truncate-text text-muted">{{information|safe}}</div>
+                              <!--div class="text-center restaurant-meta mt-5 d-flex align-items-center justify-content-between text-muted">
+                                 <div class="col-6 p-0 text-left"><i class="si si-clock"></i> 20 MINS</div>
+                                 <div class="col-6 p-0 text-center"><i class="si si-wallet"></i> $50 FOR TWO</div>
+                              </div-->
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+                  <div class="col-12 mt-10-0">
+                     {% for support in supports %}
+                        {% if support.kind == 1 %}
+                           <div class="input-group mt-10">
+                              {% condition_count support.phonenumber_set.count 1 'go-whatsapp' as support_is_distribution %}
+                              <a href="https://wa.me/{{support.phonenumber_set.first.phone_number}}?text={{support.whatsapp_text|default_if_none:''}}" class="form-control login-button {{support_is_distribution}}" data-id="{{support.id}}" data-message="{{support.whatsapp_text}}" data-cookie="{% set_cookie slug support.id %}" {% set_style 'background-color' support.bacground_color %} data-url="{% url 'construct_site:support_phone_number' slug=slug    id=support.id %}">
+                                  <svg  viewBox="0 0 32 32" class="whatsapp-ico">
+                                    <path d=" M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.478-1.318.13-.33.244-.73.244-1.088 0-.058 0-.144-.03-.215-.1-.172-2.434-1.39-2.678-1.39zm-2.908 7.593c-1.747 0-3.48-.53-4.942-1.49L7.793 24.41l1.132-3.337a8.955 8.955 0 0 1-1.72-5.272c0-4.955 4.04-8.995 8.997-8.995S25.2 10.845 25.2 15.8c0 4.958-4.04 8.998-8.998 8.998zm0-19.798c-5.96 0-10.8 4.842-10.8 10.8 0 1.964.53 3.898 1.546 5.574L5 27.176l5.974-1.92a10.807 10.807 0 0 0 16.03-9.455c0-5.958-4.842-10.8-10.802-10.8z" fill-rule="evenodd"></path>
+                                 </svg>
+                              <output {% set_style 'color' support.text_color %}>
+                                  {{support.label|safe}}
+                              </output>
+                              </a>
+                           </div>
+                        {% else %}
+                           <div class="input-group mt-10">
+                              <a href="tel:{{support.phonenumber_set.first.phone_number}}" class="form-control phone-button" {% set_style 'background-color' support.bacground_color %}>
+                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                                      <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                                 </svg>
+                              <output {% set_style 'color' support.text_color %}>
+                                 {{support.label|safe}}
+                              </output>
+                              </a>
+                           </div>
+                        {% endif %}
+                     {% endfor %}
+
+                  </div>
+                  <div class="bg-grey-light mt-20 mb-100">
+                     {% if categories.exists %}
+                        <div class="bg-light sticky-top">
+                           <div class="px-15 py-3 d-flex justify-content-between align-items-center">
+                              <div class="d-flex overflow-auto">
+                                 {% for category in categories %}
+                                    {% condition_set category.id 'mr-2 user-preferred' '' active_category as is_active %}
+                                    <button class="category btn btn-preference mr-2 {{is_active}}" data-id="{{category.id}}" data-url="{% url 'construct_site_food:good_list' slug=slug category=category.id %}" {% set_style 'border-bottom-color' category.color is_active %}>
+                                       <span {% set_style 'color' category.color is_active %}>{{category.title|safe}}</span>
+                                    </button>
+                                 {% endfor %}
+                              </div>
+                           </div>
+                        </div>
+                     {% endif %}
+                     <div class="px-15">
+                        <div class="row" id="good-content">
+                           {% include "construct_site_food/foodoma/good/list.html" %}
+                        </div>
+                     </div>
+                     <div class="mb-50"></div>
+                  </div>
+               </div>
+
+               <div>
+                  {% with total_items=cart|length %}
+                     {% condition_set total_items '' 'hidden' as items_display %}
+                     <a href="{% url 'construct_site_food:order_page' slug=slug %}" >
+                        <div class="float-cart float-cart--open {{items_display}}">
+                           <span>В корзине 
+                              <output id="output-total-items">{{ total_items }}</output> товар на 
+                              <span id="output-price-sum">{{cart.get_total_price}}</span> ₸
+                           </span>
+                           <span class="pull-right"> 
+                              <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280.000000 1014.000000" preserveAspectRatio="xMidYMid meet" width="17px">
+                                 <g transform="translate(0.000000,1014.000000) scale(0.100000,-0.100000)" fill="#fff" stroke="none">
+                                 <path d="M1190 10130 c-272 -4 -566 -8 -653 -9 l-158 -1 3 -374 c2 -206 6
+                                 -377 10 -381 3 -4 472 -1 1042 5 570 7 1043 9 1051 6 18 -7 64 -99 439 -882
+                                 l306 -641 0 -2471 0 -2472 4007 2 4007 3 57 175 c32 96 89 273 128 393 39 119
+                                 103 314 141 432 39 118 101 311 139 428 157 482 214 658 280 860 134 409 650
+                                 1994 730 2241 l81 248 0 278 0 278 -217 -4 c-120 -2 -1890 -8 -3933 -14 -2043
+                                 -5 -3947 -13 -4231 -16 l-515 -6 -61 129 c-207 437 -647 1350 -674 1400 -90
+                                 163 -184 260 -312 323 -144 71 -162 73 -697 75 -261 1 -698 -1 -970 -5z
+                                 m10431 -2982 c-26 -79 -54 -164 -61 -190 l-14 -48 -796 0 -795 0 0 182 0 183
+                                 225 5 c124 3 509 7 857 8 l632 2 -48 -142z m-2621 -53 l0 -185 -475 0 -475 0
+                                 0 185 0 185 475 0 475 0 0 -185z m-3810 -5 l0 -180 -505 0 -505 0 0 175 0 175
+                                 328 3 c180 1 407 3 505 5 l177 2 0 -180z m1900 0 l0 -180 -470 0 -470 0 0 180
+                                 0 180 470 0 470 0 0 -180z m-1900 -1420 l0 -290 -505 0 -505 0 0 283 c0 156 3
+                                 287 7 290 3 4 231 7 505 7 l498 0 0 -290z m1900 0 l0 -290 -470 0 -470 0 0
+                                 290 0 290 470 0 470 0 0 -290z m1910 0 l0 -290 -475 0 -475 0 0 290 0 290 475
+                                 0 475 0 0 -290z m2230 284 c0 -4 -41 -134 -92 -290 l-92 -284 -543 0 -542 0
+                                 -3 286 c-2 157 -1 288 1 290 7 7 1271 5 1271 -2z m-6040 -1809 l0 -285 -505 0
+                                 -505 0 0 278 c0 153 3 282 7 285 3 4 231 7 505 7 l498 0 0 -285z m1900 0 l0
+                                 -285 -470 0 -470 0 0 285 0 285 470 0 470 0 0 -285z m1910 0 l0 -285 -475 0
+                                 -475 0 0 285 0 285 475 0 475 0 0 -285z m1730 274 c0 -7 -31 -107 -69 -223
+                                 -39 -116 -78 -238 -89 -271 l-19 -60 -296 -3 -297 -2 0 285 0 285 385 0 c281
+                                 0 385 -3 385 -11z"/>
+                                 <path d="M5125 2433 c-411 -34 -745 -232 -960 -569 -188 -294 -236 -684 -126
+                                 -1021 117 -357 404 -652 752 -772 555 -192 1154 27 1457 533 123 204 181 464
+                                 161 719 -42 529 -445 984 -964 1085 -101 20 -247 32 -320 25z m235 -629 c199
+                                 -56 372 -230 425 -430 21 -77 21 -231 0 -309 -29 -108 -74 -184 -160 -270 -91
+                                 -92 -165 -136 -281 -165 -320 -82 -652 115 -734 435 -22 87 -26 196 -9 277 6
+                                 29 30 94 54 143 126 262 425 397 705 319z"/>
+                                 <path d="M9225 2430 c-478 -43 -892 -371 -1045 -828 -141 -424 -35 -896 275
+                                 -1221 177 -186 388 -303 645 -358 117 -25 353 -25 470 0 324 69 598 252 776
+                                 518 139 208 204 425 204 680 0 202 -41 374 -131 551 -226 441 -700 703 -1194
+                                 658z m278 -627 c204 -59 370 -232 422 -438 19 -76 19 -212 0 -294 -51 -214
+                                 -243 -400 -460 -446 -209 -44 -404 14 -556 166 -130 129 -187 277 -176 462 7
+                                 120 35 208 98 301 63 95 133 156 234 207 135 67 299 83 438 42z"/>
+                                 </g>
+                              </svg>
+                           </span>
+                           <canvas height="0" width="0"></canvas>
+                        </div>
+                     </a>
+                  {% endwith %}
+               </div>
+            </span>
+         </div>
+      </div>
+   </body>
+   <script src="{% static 'js/jquery.min.js' %}"></script>
+   <script src="{% static 'js/js.cookie.min.js' %}"></script>
+   <script src="{% static 'js/support.js' %}"></script>
+   <script src="{% static 'js/cart.js' %}"></script>
+   {% include "manifest.html" %}
+   <script type="text/Javascript">
+      var csrftoken = "{{ csrf_token }}"
+      function csrfSafeMethod(method) {
+         // these HTTP methods do not require CSRF protection
+         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      }
+      $.ajaxSetup({
+         beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+               xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+         }
+      })
+
+      $(document).on("click", ".category", function(e) {
+         event.preventDefault()
+         $('#good-content').html(`<img src="{% static 'img/loader.gif' %}" class="img-fluid">`)
+         var url = $(this).data('url')
+         var _this = $(this)
+         $.ajax({
+           url: url,
+           type: 'GET',
+           error: function(jqXHR, textStatus, errorThrown) {
+               alert(jqXHR)
+               console.log(jqXHR)
+           },
+           success:function (data) {
+            $('#good-content').html(data)
+            var color = $(".category.user-preferred").css("border-bottom-color")
+            $(".category").css("border-bottom-color", '#e0e0e0')
+            $(".category span").css("color", 'black')
+            $('.category').removeClass('user-preferred')
+            _this.css("border-bottom-color", color).find('span').css("color", color)
+            _this.addClass('user-preferred')
+           }
+         })
+       })
+
+      var perfEntries = performance.getEntriesByType("navigation");
+
+      if (perfEntries[0].type === "back_forward") {
+          location.reload(true);
+      }
+   </script>
+
+</html>

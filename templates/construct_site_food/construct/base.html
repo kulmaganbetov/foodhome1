@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  {% load static %}
+  {% load construct_tags %}
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/new-construct.css' %}">
+    <link rel="stylesheet" href="{% static 'css/construct_site_default/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+</head>
+<body>
+<!-- Header Start -->
+<header class="site-header">
+  <div class="wrapper site-header__wrapper">
+    <div class="site-header__start">
+      <a href="#" class="brand">GOSITE</a>
+    </div>
+    <div class="site-header__middle">
+      <nav class="nav">
+        <button class="nav__toggle" aria-expanded="false" type="button">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
+        <ul class="nav__wrapper">
+          <li class="nav__item">
+            {% condition_set request.resolver_match.url_name 'active' '' 'construct' as construct_active %}
+            <a href="{% url 'construct_site_food:construct' slug=slug %}" class="{{ construct_active }}">
+              Конструктор
+            </a>
+          </li>
+          <li class="nav__item">
+            {% condition_set request.resolver_match.url_name 'active' '' 'setting' as setting_active %}
+            <a href="{% url 'account:setting' slug=slug %}" class="{{setting_active}}">Опубликовать</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="site-header__end">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{request.user.username}}
+      </a>
+      <div class="dropdown-menu dropdown-menu-right">
+        <button class="dropdown-item" type="button"><a href="{% url 'logout' %}" class="exit">Выход</a>
+    </div>
+  </div>
+</header>
+<!-- Header End -->
+{% block content %}
+{% endblock %}
+
+{% block modal %}
+{% endblock %}
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static 'js/js.cookie.min.js' %}"></script>
+<script src="{% static 'js/header.js' %}"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/inlines.js' %}"></script>
+<script type="text/Javascript">
+    var csrftoken = Cookies.get('csrftoken');
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    $(document).ready(function(){
+        {% block domready %}
+
+        {% endblock %}
+    });
+</script>
+</body>
+</html>

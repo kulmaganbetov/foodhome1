@@ -1,0 +1,324 @@
+{% extends 'construct_site_food/construct/base.html' %}
+{% load static %}
+{% load construct_tags %}
+
+<!-- Блок контента начало -->
+{% block content %}
+  <div class="header">
+    <nav class="navbar navbar-light border-bottom" id="navbar-top">
+      <div class="container">
+        <div class="d-none">
+          <form action="{% url 'construct_site:additional_data_creat_or_update' slug=slug %}" method="post" enctype="multipart/form-data">
+            <input type="file" id="additional-photo" name="photo">
+            <input type="hidden" name="element_id" value="logo">
+          </form>
+        </div>
+        <a class="navbar-brand" href="#">
+          <img src="{% get_photo 'logo' slug 'img/default_logo.png'  %}" width="30" height="30" class="d-inline-block align-top click-photo" style="border-radius: 50%;">
+          <span data-id="site_text" class="logo-text additional-element" spellcheck="false" contenteditable>
+            {% get_text 'site_text' slug 'Введите текст логотига' %}
+          </span>
+        </a>
+      </div>
+    </nav>
+  </div>
+  <section class="content">
+    <div class="container">
+      <div class="content-info">
+        <h5 data-id="caption" class="additional-element" spellcheck="false" contenteditable>
+          {% get_text 'caption' slug 'Введите загаловок!' %}
+        </h5>
+        {% get_text 'information' slug 'Введите информацию о компании' as information %}
+        <textarea data-type="val" data-id="information" class="textarea form-control additional-element" style="height: 150px" spellcheck="false">{{information|safe}}</textarea>
+        <div class="content-btn"><br>
+          <div class="row">
+            {% for support in supports %}
+              <div class="col-md-4 col-sm-6 order-2">
+                <button class="login-button d-flex justify-content-around"
+                  style="background-color: {{support.bacground_color}}">
+                  <span class="fa fa-whatsapp" aria-hidden="true" style="color: {{support.icon_color}}"></span>
+                  <span class="text-btn" style="color: {{support.text_color}}">{{support.label}}</span>   
+                  <i class="fa fa-pencil modal-display float-right" data-toggle="modal" data-target="#default-modal" data-url="{% url 'construct_site:support_form' slug=slug pk=support.id %}"></i>
+                  {% if not support.is_main %}
+                    <i class="fa fa-trash modal-display float-right" data-toggle="modal" data-target="#default-modal" aria-hidden="true" data-url="{% url 'construct_site:support_delete' slug=slug pk=support.id %}"></i>
+                  {% endif %}
+                </button>
+              </div>
+            {% endfor %}
+            <div class="col-md-4 col-sm-6 order-1">
+              <button id="support-add" class="new-btn modal-display " data-toggle="modal" data-target="#default-modal" aria-hidden="true" data-url="{% url 'construct_site:support_form' slug=slug %}">
+                Добавить whatsapp
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="content-2">
+    <div class="container">
+      <div class="content-product">
+          <div class="row">
+            <div class="col-md-4">
+              <button class="new-btn modal-display" data-toggle="modal" data-target="#default-modal" 
+                aria-hidden="true" data-url="{% url 'construct_site_food:category_create' slug=slug %}">
+                Добавить категорию
+              </button>
+            </div>
+            <div class="col-md-8">
+              <div class="" style="margin: 5px 0;">
+                {% for category in categories %}
+                  <output class="category-label category category-label-mob" data-id="{{category.id}}"  contenteditable="">
+                    {{category.title|cut:' '}}
+                  </output>
+                  <output class="category-label category-label-icon modal-display" aria-hidden="true" data-toggle="modal" data-target="#default-modal" aria-hidden="true"   data-url="{% url 'construct_site_food:category_delete' slug=slug pk=category.id %}">
+                    <i class="fa-icon-category fa fa fa-trash"></i>
+                  </output>
+                  <output class="category-label category-label-icon modal-display m-16" aria-hidden="true" data-toggle="modal" data-target="#default-modal" aria-hidden="true"   data-url="{% url 'construct_site_food:category_update' slug=slug pk=category.id %}">
+                    <i class="fa fa-pencil"></i>
+                  </output>         
+                {% endfor %}
+              </div>
+            </div>
+        </div>
+
+        <div class="content-detail">
+          <div class="row">
+            <div class="col-lg-4 col-sm-6">
+              <div class="add modal-display" data-toggle="modal" data-target="#default-modal" aria-hidden="true"   data-url="{% url 'construct_site_food:good_create' slug=slug %}">
+                <div class="add-images">
+                  <label>Добавить товар </label>
+                </div>
+              </div>
+            </div>
+            {% for good in goods %}
+            <div class="col-lg-4 col-sm-6">
+              <div class="product-item">
+                <div class="pi-pic">
+                  {% if not good.category and categories.exists %}
+                  <div class="tag-sale modal-display" data-toggle="modal" data-target="#default-modal" data-url="{% url 'construct_site_food:good_update' slug=slug pk=good.id %}">Укажите категорию</div>
+                  {% endif %}
+
+                    <picture class="img-fluid">
+                        <img
+                            src="{{ good.photo.url }}"
+                            class="img-fluid"
+                        />
+                    </picture>
+                  <div class="pi-links">
+                    <button class="wishlist-btn modal-display" data-toggle="modal" data-target="#default-modal" data-url="{% url 'construct_site_food:good_update' slug=slug pk=good.id %}">
+                      <i class="fa fa-pencil"></i>
+                    </button>
+                    <button class="wishlist-btn modal-display" data-toggle="modal" data-target="#default-modal" data-url="{% url 'construct_site_food:good_delete' slug=slug pk=good.id %}">
+                      <i class="fa fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="btn-product">
+                  <div class="btn-group" align="center">
+                    Название: {{good.title}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% empty %}
+              <div class="col-lg-4 col-sm-6">
+                У вас нет добавленных продуктов!
+              </div>
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div id="toastsContainerTopRight" class="toasts-top-right fixed">
+        <div class="alert alert-info alert-with-icon" data-notify="container">
+          <i class="fa fa-bell-o" aria-hidden="true" data-notify="icon"></i>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          <span data-notify="message">{{ message.message }}</span>
+        </div>
+      </div>
+    {% endfor %}
+{% endif %}
+  <!-- alert begin -->
+  
+  <!-- alert begin -->
+
+  <!-- Modal begin -->
+  <div class="modal fade" id="designModal" tabindex="-1" role="dialog" aria-labelledby="designModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="design-content" class="modal-body"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal end -->
+{% endblock %}
+<!-- Блок контента конец -->
+
+<!-- Блок модуля начало -->
+{% block modal %}
+  <!-- Modal default -->
+  <div class="modal fade" id="default-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-bottom-none">
+          <h5 class="modal-title" id="exampleModalLabel"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="modal-content"></div>        
+      </div>
+    </div>
+  </div>
+  <!-- Modal default end -->
+{% endblock %}
+<!-- Блок модуля конец -->
+
+<!-- Блок js начало -->
+{% block domready %}
+  
+  $(window).scroll(function () {
+    sessionStorage.scrollTop = $(this).scrollTop();
+  })
+
+  if (sessionStorage.scrollTop != "undefined") {
+    $(window).scrollTop(sessionStorage.scrollTop);
+  }
+
+  $(document).on("click", ".modal-display", function() {
+    var url = $(this).data('url')
+    $.ajax({
+      url: url,
+      type: 'GET',
+      data:{url: url},
+      error: function(jqXHR, textStatus, errorThrown) {
+          alert(jqXHR.responseText)
+      },
+      success:function (data) {
+          $('#modal-content').html(data)
+      }
+    })
+  })
+
+  $(document).on("change", "#id_type", function() {
+    var id = $(this).val()
+    if(id==2){
+      $('#design_text-content').removeClass('d-none')
+      $('#order_text-content').removeClass('d-none')
+      $('.select-font').removeClass('d-none')
+      $('.select-img').addClass('d-none')
+    }
+    else if(id==3){
+      $('#design_text-content').removeClass('d-none')
+      $('#order_text-content').removeClass('d-none')
+      $('.select-font').addClass('d-none')
+      $('.select-img').removeClass('d-none')
+    }
+    else{
+      $('#design_text-content').addClass('d-none')
+      $('#order_text-content').removeClass('d-none')
+      $('.select-font').addClass('d-none')
+      $('.select-img').addClass('d-none')
+    }
+  })
+
+  $(document).on("change", "#id_indicate_price", function() {
+    if($(this).is(':checked')){
+      $('#price-content').removeClass('d-none')
+    }
+    else{
+      $('#price-content').addClass('d-none')
+    }
+  })
+
+  $(document).on("blur", ".additional-element", function() {
+    var type = $(this).data('type')
+    var element_id = $(this).data('id')
+    if(type == 'val'){
+      var value = $(this).val()
+    }
+    else{
+      var value = $(this).text().trim()
+    }
+    $.ajax({
+      url: "{% url 'construct_site:additional_data_creat_or_update' slug=slug %}",
+      method: "POST",
+      data: {
+        value: value,
+        element_id: element_id
+      },
+      success: function(data){
+      }
+    })
+  })
+
+  $(document).on("click", ".tab-good", function() {
+    var validate = true
+    var type = $('#id_type').val()
+    var font = $('#id_font').val()
+    var photo = $('#id_photo').val()
+    var photo_exists = $('#photo-exists').val()
+    var next = $(this).data('next')
+    if(type == 2 && !font){
+      $('#id_font').addClass('error-color')
+      validate = false
+    }
+    if(!photo_exists && !photo){
+      $('#id_photo').addClass('error-color')
+      validate = false
+    }
+    if(validate){
+      $("#profile-tab").trigger("click")
+    }
+  })
+  
+  $(document).on("change", "#id_photo, #id_font", function() {
+    var font = $('#id_font').val()
+    var photo_exists = $('#photo-exists').val()
+    var photo = $('#id_photo').val()
+    if(font){
+      $('#id_font').removeClass('error-color')
+    }
+    else{
+      $('#id_font').addClass('error-color')
+    }
+    if(!photo_exists && !photo){
+      $('#id_photo').addClass('error-color')
+    }
+    else{
+      $('#id_photo').removeClass('error-color')
+    }
+  })
+
+  $(document).on("click", ".click-photo", function() {
+    $('#additional-photo').trigger('click')
+  })
+
+  $(document).on("change", "#additional-photo", function() {
+    var form = $(this).closest('form')
+    var data = new FormData(form.get(0));
+    $.ajax({
+      url: form.attr('action'),
+      method: "POST",
+      data: data,
+      processData: false,
+      contentType: false,
+      success:function (data) {
+        location.reload()
+      }
+    })
+  })    
+{% endblock %}
+<!-- Блок js конец -->

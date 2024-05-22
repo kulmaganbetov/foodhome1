@@ -1,0 +1,168 @@
+<html lang="en" class="" style="">
+   <head>
+      {% load static %}
+      {% load food_tags %}
+	   <title></title>
+	   <meta charset="utf-8">
+	   <meta http-equiv="cache-control" content="no-cache">
+	   <meta http-equiv="expires" content="0">
+	   <meta http-equiv="pragma" content="no-cache">
+	   <meta name="theme-color" content="#fff">
+	   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/construct_site_food/main.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/construct_site_food/style.css' %}">
+	</head>
+   <body cz-shortcut-listen="true" class="bg-grey">
+      <div id="page-container">
+         <div id="root">
+            {% csrf_token %}
+            <span>
+               <div>
+                  <div class="col-12 p-0 fixed" style="z-index: 9;">
+                     <div class="block m-0">
+                        <div class="block-content p-0 undefined">
+                           <div class="input-group search-box">
+                              <div class="input-group-prepend">
+                                 <a href="{% url 'construct_site_food:client' slug %}" class="btn search-navs-btns undefined" style="padding-top: 18px;">
+                                    <svg class="arrow-right-3" viewBox="0 0 5 9">
+                                        <path d="M0.419,9.000 L0.003,8.606 L4.164,4.500 L0.003,0.394 L0.419,0.000 L4.997,4.500 L0.419,9.000 Z" />
+                                    </svg>
+                                 </a>
+                              </div>
+                              <p class="form-control search-input d-flex align-items-center undefined"><span class="nav-page-title">Корзина</span></p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="pt-50 bg-white">
+                        
+                  </div>
+                  <div class="p-15">
+                     <div class="block-content block-content-full bg-white pt-10 pb-5">
+                        <h2 class="item-text mb-10">Выбранные продукты</h2>
+                        {% for item in cart %}
+                           {% get_food_good item.id as good %}
+                           {% if good %}
+                              <div class="cart-item-meta pt-15 pb-15 align-items-center quantity-content">
+                                 <div class="cart-item-name">
+                                    <span class="false">
+                                       <strong>{{good.title}}</strong>
+                                    </span>
+                                 </div>
+                                 <div class="btn-group btn-group-sm cart-item-btn">
+                                    <button type="button" class="btn btn-add-remove remove-to-cart" data-id="{{good.id}}" data-url="{% url 'construct_site_food:good_add_to_cart' id=good.id %}">
+                                       <span class="btn-dec">-</span>
+                                       <canvas height="0" width="0"></canvas>
+                                    </button>
+                                    <button type="button" id="quantity-show-{{good.id}}" class="btn btn-quantity quantity-show" data-price="{{good.price}}">
+                                       {{item.quantity}}
+                                    </button>
+                                    <button type="button" class="btn btn-add-remove add-to-cart" data-id="{{good.id}}" data-url="{% url 'construct_site_food:good_add_to_cart' id=good.id %}">
+                                       <span class="btn-inc">+</span>
+                                       <canvas height="0" width="0" ></canvas>
+                                    </button>
+                                 </div>
+                                 <div class="cart-item-price">
+                                    {{item.price}} ₸
+                                 </div>
+                              </div>
+                           {% endif %}
+                        {% endfor %}
+                     </div>
+                     <input id="delivery-address" class="form-control order-comment" type="text" placeholder="Введите адрес доставки" value="">
+
+                  </div>
+                  <div>
+                     <div class="px-15">
+                        <div class="bg-white bill-details mb-200 border-radius-4px">   
+                           <div class="p-15">
+                              <div style="display:flex">
+                                       <input id="promocode" class="form-control order-comment" type="text" placeholder="Введите промокод" value="">
+                                       <input type="submit" value="применить" id="check-promo">
+                                    </div>
+                              <div class="display-flex">
+                                 <div class="flex-auto font-w700">К оплате</div>
+                                 <div class="flex-auto text-right font-w700">
+
+                                    <span id="output-price-sum">{{cart.get_total_price}}</span> ₸
+                                 </div> 
+                              </div>
+
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="bg-white cart-checkout-block">
+                     <div class="p-15">
+                        <!--h2 class="almost-there-text m-0 pb-5">Almost There</h2>
+                        <span class="almost-there-sub text-muted">Login or Signup to place your order</span-->
+                        <button class="btn btn-lg btn-continue order-good">
+                           Заказать
+                           <canvas height="0" width="0" ></canvas>
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            </span>
+         </div>
+      </div>
+   </body>
+   <script src="{% static 'js/jquery.min.js' %}"></script>
+   <script src="{% static 'js/js.cookie.min.js' %}"></script>
+   <script src="{% static 'js/cart.js' %}"></script>
+   <script type="text/javascript">
+      var csrftoken = Cookies.get('csrftoken')
+      function csrfSafeMethod(method) {
+         // these HTTP methods do not require CSRF protection
+         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      }
+      $.ajaxSetup({
+         beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+               xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+         }
+      })
+      $(document).on("click", ".order-good", function(e) {
+         var delivery_address = $('#delivery-address').val()
+         var promocode = $('#promocode').val()
+         $.ajax({
+            url: "{% url 'construct_site_food:order_good' %}",
+            type: 'POST',
+            data:{
+               delivery_address: delivery_address,
+               promocode: promocode
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               alert(jqXHR.responseText)
+               console.log(jqXHR.responseText)
+            },
+            success:function (data) {
+               alert(data)
+            }
+         })
+      })
+
+      $(document).on("click", "#check-promo", function(e) {
+         var promocode = $('#promocode').val()
+         var total_sum = $('#output-price-sum').text()
+         $.ajax({
+            url: "{% url 'construct_site_food:apply_promocode' %}",
+            type: 'GET',
+            data:{
+               promocode: promocode,
+               total_sum:total_sum
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               alert(errorThrown)
+               console.log(jqXHR.responseText)
+            },
+            success:function (data) {
+               $('#output-price-sum').html(data.discount)
+            }
+         })
+      })
+      
+   </script>
+</html>

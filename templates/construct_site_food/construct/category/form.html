@@ -1,0 +1,25 @@
+{% load static %}
+{% load widget_tweaks %}
+<form action="{{url}}" method="post">
+	{% csrf_token %}
+	<div class="modal-body">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Название категории : </label>
+        {{form.title|attr:"autocomplete:off"|add_class:"form-control"}}
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputEmail1">Выберите цвет : </label>
+        {{form.color|attr:"type:color"}}
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1"> Сортировка : </label>
+        {{form.sorting|attr:"autocomplete:off"|add_class:"form-control"}}
+      </div>
+    </div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Закрыть</button>
+		<input type="submit" name="submit" class="btn btn-sm btn-success" value="Cохранить">
+	</div>
+</form>

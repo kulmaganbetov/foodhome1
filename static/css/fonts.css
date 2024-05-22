@@ -1,0 +1,41 @@
+@font-face {
+    font-family: "Antiqua-Italic-Cyrillic"; 
+    src: url("../fonts/Antiqua-Italic-Cyrillic-_3841.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
+    font-family: "CyrillicOld"; 
+    src: url("../fonts/CyrillicOld.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: "RobotoRegular";
+	src:url("../fonts/RobotoRegular/RobotoRegular.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: "PosterBodoniCyrillic_BT_Roman";
+	src:url("../fonts/PosterBodoniCyrillic_BT_Roman.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: "CyrillicHover";
+	src:url("../fonts/CyrillicHover.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: "16156";
+	src:url("../fonts/16156.otf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}

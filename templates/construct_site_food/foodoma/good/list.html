@@ -1,0 +1,45 @@
+{% load construct_tags %}
+{% for good in goods %}
+   {% get_good request good as good_in_card %}
+   {% condition_set good_in_card 'hidden' '' as in_cart_display %}
+   {% condition_set good_in_card '' 'hidden' as quantity_display %}
+   {% condition_set good_in_card good_in_card.quantity 0 as quantity %}
+   <div class="col-md-4 col-sm-12">
+      <div class="product-slider-item">
+         <div class="block border-radius-275 recommended-item-shadow">
+            <div class="block-content recommended-item-content-new mb-5">
+               <img src="{{ good.photo.url }}" alt="Skillet Cookie" class="recommended-item-image-new">
+               <div class="my-2">
+                  <div class="px-5 text-left recommended-v2-ellipsis-meta">
+                     <div class="d-flex justify-content-between align-items-center">
+                        <span class="meta-name">{{good.title|safe}}</span>
+                     </div>
+                  </div>
+                  <div class="ml-2">
+                     <span class="meta-price">{{good.description|safe}}</span>
+                  </div>
+                  <div class="ml-2 fotter-product">
+                     <div class="price">
+                        {{good.price}} ₸
+                     </div>
+                     <div data-id="{{good.id}}" class="in-cart fotter-text {{in_cart_display}}" data-url="{% url 'construct_site_food:good_add_to_cart' id=good.id %}">
+                         В корзину
+                     </div>
+                     <div class="product-quanity-btn product-quanity-content {{quantity_display}}">
+                        <div class="quanity-btn remove-to-cart" data-id="{{good.id}}" data-url="{% url 'construct_site_food:good_add_to_cart' id=good.id %}">
+                           <svg  xmlns="http://www.w3.org/2000/svg" class="plus-minus-icon"><g data-v-536ec1cf="" fill="none" fill-rule="evenodd"><path data-v-536ec1cf="" d="M15 0c8.284 0 15 6.716 15 15 0 8.284-6.716 15-15 15-8.284 0-15-6.716-15-15C0 6.716 6.716 0 15 0z" fill="#ED5700"></path><path data-v-536ec1cf="" fill="#FFF" fill-rule="nonzero" d="M21.429 13.929H8.57v2.142H21.43z"></path></g></svg>
+                        </div>
+                        <div class="quanity-one">
+                           <span id="quantity-show-{{good.id}}">{{quantity}}</span>
+                        </div>
+                        <div class="quanity-btn add-to-cart"  data-id="{{good.id}}" data-url="{% url 'construct_site_food:good_add_to_cart' id=good.id %}">
+                           <svg  xmlns="http://www.w3.org/2000/svg" class="plus-minus-icon"><g data-v-536ec1cf="" fill="none" fill-rule="evenodd"><path data-v-536ec1cf="" d="M15 0c8.284 0 15 6.716 15 15 0 8.284-6.716 15-15 15-8.284 0-15-6.716-15-15C0 6.716 6.716 0 15 0z" fill="#ED5700"></path><path data-v-536ec1cf="" fill="#FFF" fill-rule="nonzero" d="M16.071 8.571H13.93v5.358H8.57v2.142h5.358v5.358h2.142V16.07h5.358V13.93H16.07z"></path></g></svg>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+{% endfor %}

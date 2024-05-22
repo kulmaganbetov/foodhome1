@@ -1,0 +1,84 @@
+
+.container-scroller {
+    overflow: hidden;
+}
+.page-body-wrapper.full-page-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 0;
+}
+.page-body-wrapper {
+    min-height: calc(100vh - 64px);
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 64px;
+}
+.container-fluid {
+    width: 100%;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+.content-wrapper {
+    background: #fdfdfd;
+    padding: 1.25rem;
+    width: 100%;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+}
+.pl-0, .px-0 {
+    padding-left: 0 !important;
+}
+.pr-0, .px-0 {
+    padding-right: 0 !important;
+}
+.ml-0, .rtl .preview-list .preview-item .preview-thumbnail .preview-icon i, .rtl .list-wrapper .remove, .mx-0 {
+    margin-left: 0 !important;
+}
+.mr-0, .rtl .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown .dropdown-item i, .rtl .settings-panel .sidebar-bg-options .rounded-circle, .rtl .settings-panel .sidebar-bg-options .color-tiles .tiles, .rtl .settings-panel .color-tiles .sidebar-bg-options .tiles, .rtl .settings-panel .events i, .mx-0 {
+    margin-right: 0 !important;
+}
+.w-100 {
+    width: 100% !important;
+}
+.ml-auto, .list-wrapper .remove, .mx-auto {
+    margin-left: auto !important;
+}
+.mr-auto, .rtl .list-wrapper .remove, .mx-auto {
+    margin-right: auto !important;
+}
+.auth .auth-form-light {
+    background: #ffffff;
+}
+.text-left {
+    text-align: left !important;
+}
+.pb-5, .py-5 {
+    padding-bottom: 3rem !important;
+}
+.pt-5, .py-5 {
+    padding-top: 3rem !important;
+}
+.pl-4, .px-4 {
+    padding-left: 1.5rem !important;
+}
+.pr-4, .px-4 {
+    padding-right: 1.5rem !important;
+}
+.border, .loader-demo-box {
+    border: 1px solid #e3e7ed !important;
+}
+.auth .brand-logo {
+    margin-bottom: 2rem;
+}
+.pt-3, .py-3 {
+    padding-top: 1rem !important;
+}
+.form-control-lg{
+    font-size: 1rem;
+}

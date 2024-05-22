@@ -1,0 +1,201 @@
+.login-button {
+    background-color: rgb(37, 211, 102);
+    color: white;
+}
+.login-button {
+    cursor: pointer;
+    font-weight: 500;
+    height: 42px;
+    padding: 2px 0px !important;
+}
+.login-button svg{
+    width: 27px;
+    margin-left: 15px;
+    margin-top: 5px;
+    position: absolute;
+    fill: #fff;
+}
+.phone-button{
+    background-color: rgb(29, 161, 242);
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    height: 42px;
+    padding: 2px 0px !important;
+}
+.phone-button svg{
+    width: 20px;
+    margin-left: 21px;
+    margin-top: 9px;
+    position: absolute;
+    fill: #fff;
+}
+.phone-button output{
+    color: #ffffff;
+    padding: 10px 45px;
+    font-size: 14px;
+}
+.login-button output{
+    color: #ffffff;
+    padding: 10px 45px;
+    font-size: 14px;
+}
+.category-list-item{
+    display: flex; justify-content: space-between;
+}
+.quantity-badge-list{
+    background-color: rgb(252, 128, 25);
+}
+.btn-add-remove canvas{
+    border-radius: inherit; height: 100%; left: 0px; position: absolute; top: 0px; width: 100%;
+}
+.float-cart--open{
+    background-color: rgb(96, 178, 70); color: rgb(255, 255, 255);
+}
+.text-white canvas{
+    border-radius: inherit; height: 100%; left: 0px; position: absolute; top: 0px; width: 100%;
+}
+.menu-button-block-main{
+    bottom: 5rem;
+}
+.btn-menu-list{
+    background-color: rgb(252, 128, 25); animation-fill-mode: both; backface-visibility: visible; animation-duration: 1000ms; animation-delay: 0ms; animation-iteration-count: 1; opacity: 1; animation-name: react-reveal-627225225618863-2;
+}
+.btn-menu-list canvas{
+    border-radius: inherit; height: 100%; left: 0px; position: absolute; top: 0px; width: 100%;
+}
+.my-1{
+    width: 1rem; align-self: center;
+}
+.search-navs-btns{
+    position: relative;
+}
+.search-navs-btns canvas{
+border-radius: inherit; height: 100%; left: 0px; position: absolute; top: 0px; width: 100%;
+}
+/*.bg-light{
+    padding-top: 5rem;
+}*/
+.pt-50{
+    padding-top: 51px;
+}
+.block-content-full{
+    border-top-left-radius: 5px; border-top-right-radius: 5px;
+}
+.cart-checkout-bloc{
+    height: 22vh;
+}
+.btn-continue{
+    background-color: rgb(252, 128, 25); position: relative;
+}
+.form-group {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+label {
+    display: inline-block;
+    margin-bottom: .5rem;
+}
+.form-control-input {
+    display: block;
+    width: 100%;
+    height: 37px;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.btn-preference{
+    margin-right: 5px;
+}
+.overflow-auto{
+    overflow: auto;
+}
+.menu-item-block-single-name{
+    animation-fill-mode: both;
+    animation-duration: 0ms;
+    animation-delay: 0ms; 
+    animation-iteration-count: 1; 
+    opacity: 1;
+    animation-name: react-reveal-165413431724670-5;
+}
+.menu-item-block-single-quantity{
+    animation-fill-mode: both; 
+    animation-duration: 0ms; 
+    animation-delay: 0ms; 
+    animation-iteration-count: 1; 
+    opacity: 1; 
+    animation-name: react-reveal-165413431724670-5;
+}
+.mb-15{
+    margin-bottom: 15px;
+}
+.arrow-right-3{
+    transform: rotate(180deg);
+    width: 10px;
+    cursor: pointer;
+}
+.sticky-top {
+    position: sticky;
+    top: -1px;
+    z-index: 1;
+}
+.product-slider-item{
+    margin-left: 0;
+    margin-right: 0;
+}
+.recommended-item-image-new{
+    width: 100%;
+    border-radius: .1rem;
+}
+.recommended-item-content-new{
+    padding: .5rem;
+    padding-top: 5px;
+}
+.fotter-product{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.price{
+    font-size: 17px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #EF5762;
+}
+.meta-name{
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.product-quanity-btn{
+    display: flex;
+    align-items: center;
+}
+.quanity-btn svg{
+    width: 33px;
+    height: 33px;
+}
+.quanity-one{
+    font-size: 20px;
+    margin-left: 5px;
+    font-weight: 600;
+    margin-right: 10px;
+    margin-top: -5px;
+}
+.fotter-text{
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.plus-minus-icon[data-v-536ec1cf] {
+    opacity: 1;
+    transition: opacity .3s,transform .1s;
+}
+.height-25{
+   height: 16vh;
+}

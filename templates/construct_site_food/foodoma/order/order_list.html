@@ -1,0 +1,112 @@
+
+
+
+<html lang="en" class="" style="">
+   <head>
+      {% load static %}
+      {% load food_tags %}
+	   <title></title>
+	   <meta charset="utf-8">
+	   <meta http-equiv="cache-control" content="no-cache">
+	   <meta http-equiv="expires" content="0">
+	   <meta http-equiv="pragma" content="no-cache">
+	   <meta name="theme-color" content="#fff">
+	   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/construct_site_food/main.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/construct_site_food/style.css' %}">
+	</head>
+   <body cz-shortcut-listen="true" class="bg-grey">
+      <div id="page-container">
+         <div id="root">
+            {% csrf_token %}
+            <span>
+               <div>
+                  <div class="col-12 p-0 fixed" style="z-index: 9;">
+                     <div class="block m-0">
+                        <div class="block-content p-0 undefined">
+                           <div class="input-group search-box">
+                              <div class="input-group-prepend">
+                                 <a href="{% url 'construct_site_food:client' slug='nurdaulett' %}" class="btn search-navs-btns undefined" style="padding-top: 18px;">
+                                    <svg class="arrow-right-3" viewBox="0 0 5 9">
+                                        <path d="M0.419,9.000 L0.003,8.606 L4.164,4.500 L0.003,0.394 L0.419,0.000 L4.997,4.500 L0.419,9.000 Z" />
+                                    </svg>
+                                 </a>
+                              </div>
+                              <p class="form-control search-input d-flex align-items-center undefined"><span class="nav-page-title">Мои заказы</span></p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="pt-50 bg-white">
+
+                  </div>
+                  <h2 class="item-text mb-10">История заказов</h2>
+                  {% for order in orders %}
+                  <div class="p-15">
+                     <div class="block-content block-content-full bg-white pt-10 pb-5">
+
+
+                              <div class="cart-item-meta pt-15 pb-15 align-items-center quantity-content">
+                                 <div class="cart-item-name">
+                                    <span class="false">
+                                       <strong>Заказ №{{ order.id }}</strong><br>
+                                       <strong>{{ order.get_status_display }}</strong>
+                                    </span>
+                                 </div>
+                                 <div class="btn-group btn-group-sm cart-item-btn">
+                                     <br> <div id="timer{{ order.id }}" class="timer" data-end-time="{{ order.delivery_time|date:'c' }}"></div>
+
+                                 </div>
+                                 <div class="cart-item-price">
+                                    {{order.get_total_cost}} ₸
+                                 </div>
+                              </div>
+                        <h3>Детали заказа</h3>
+    <ul>
+        {% for item in order.items.all %}
+            <li>{{ item.good.title }} - Количество: {{ item.quantity }} - Цена: {{ item.get_cost }}</li>
+        {% endfor %}
+    </ul>
+
+                     </div>
+                  </div>
+                  {% endfor %}
+               </div>
+            </span>
+         </div>
+      </div>
+   </body>
+   <script src="{% static 'js/jquery.min.js' %}"></script>
+   <script src="{% static 'js/js.cookie.min.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const timers = document.querySelectorAll('.timer');
+
+    timers.forEach(function(timer) {
+        const endTime = new Date(timer.getAttribute('data-end-time')).getTime();
+
+        const updateTimer = function() {
+            const now = new Date().getTime();
+            const distance = endTime - now;
+
+            if (distance < 0) {
+                clearInterval(interval);
+                timer.innerHTML = 'Доставлено';
+                return;
+            }
+
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            timer.innerHTML = hours + 'ч ' + minutes + 'м ' + seconds + 'с ';
+        };
+
+        // Обновляем таймер каждую секунду
+        let interval = setInterval(updateTimer, 1000);
+        updateTimer(); // Инициализируем сразу при загрузке
+    });
+});
+</script>
+
+</html>

@@ -1,0 +1,96 @@
+{% load static %}
+{% load widget_tweaks %}
+{% if phone_number_formset.errors %}
+    {% for field in phone_number_formset %}
+        {% for error in field.errors %}
+            {{field}}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+<form action="{{url}}" method="post">
+	{% csrf_token %}
+	<div class="modal-body">
+		<div class="formset">
+			{{ phone_number_formset.management_form }}
+			<div class="d-flex justify-content-aroundform-group">
+				<div class="col-md" style="width: 80%;">
+					<b>Добавить номер телефона</b>
+				</div>
+				<div class="col-xs">
+					<button type="button" class="btn btn-primary btn-sm add-inline-form">
+						+
+					</button>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<span>Выберите тип кнопки: <span style="color: red"> *</span> </span>
+		        <p>{{form.kind|attr:"autocomplete:off"|add_class:"form-control"}}</p>
+		    </div>
+
+			<div class="formset-forms">
+				{% for formset_form in phone_number_formset %}
+					{% for hidden in formset_form.hidden_fields %}
+				        {{ hidden }}
+				    {% endfor %}
+		            <div class="formset-form  form-group">
+		            	<div class="row">
+		            		<div class="col-md-10 col-sm-8">
+		            			<label>Введите номер телефона :</label>
+		                		{{formset_form.phone_number|attr:"required"|add_class:"form-control"}}
+		               		 </div>
+		               		 <div class="col-md-2 col-sm-4"  style="top: 25px;">
+		               		 	{% if formset_form.prefix != 'phone_numbers-0' %}
+				                	<button class="btn btn-sm btn-danger delete">-</button>
+				                {% endif %}
+				                <div class="d-none">
+				                	{{formset_form.DELETE}}
+				                </div>
+		               		 </div>
+		                
+		                </div>
+		            </div>
+		        {% endfor %}
+			</div>
+	        <div class="empty-form d-none">
+	        	<div class="row">
+	        		<div class="col-md-10 col-sm-8">
+	        			Введите номер телефона:
+	        			{{phone_number_formset.empty_form.phone_number|add_class:"form-control"}}
+	        		</div>
+	        		<div class="col-md-2 col-sm-4 delete-btn-content" style="top: 18px;">
+
+	        		</div>
+	        		<div class="d-none">
+						{{phone_number_formset.empty_form.DELETE}}
+					</div>
+	        	</div>
+	        	
+			</div>
+		</div>
+		<div class="form-group">
+			<span>Текст кнопки: <span style="color: red"> *</span> </span>
+	        <p>{{form.label|attr:"autocomplete:off"|add_class:"form-control"}}</p>
+	    </div>
+	    <div class="form-group">
+			<span>Текст сообщении клиенту:</span>
+	        <p>{{form.whatsapp_text|attr:"autocomplete:off"|add_class:"form-control"}}</p>
+	    </div>
+	    <div class="form-group">
+			<span>Фоновой цвет кнопки:</span>
+	        <p>{{form.bacground_color|attr:"type:color"}}</p>
+	    </div>
+	    <div class="form-group">
+			<span>Цвет текста кнопки:</span>
+	        <p>{{form.text_color|attr:"type:color"}}</p>
+	    </div>
+	    <div class="form-group">
+			<span>Цвет иконки кнопки:</span>
+	        <p>{{form.icon_color|attr:"type:color"}}</p>
+	    </div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Закрыть</button>
+		<input type="submit" name="product-remove-submit" class="btn btn-sm btn-success" value="Cохранить">
+	</div>
+</form>

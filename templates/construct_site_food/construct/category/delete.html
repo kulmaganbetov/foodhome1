@@ -1,0 +1,12 @@
+{% load static %}
+<div class="icon-box">
+	<img src="{% static 'img/delete.png' %}" alt="">
+</div>
+<h4 class="modal-confirm">Подтвердите удаление категории!</h4>
+<form action="{{url}}" method="POST">
+	{% csrf_token %}
+	<div class="modal-footer justify-content-center border-bottom-none border-top-none">
+		<button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+		<input type="submit" class="btn btn-danger" name="" value="Удалить">
+	</div>
+</form>

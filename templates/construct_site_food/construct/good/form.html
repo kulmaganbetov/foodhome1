@@ -1,0 +1,57 @@
+{% load static %}
+{% load construct_tags %}
+{% load widget_tweaks %}
+<form action="{{url}}" method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+	<div class="modal-body p-0">
+		<div class="tab-content" id="myTabContent">
+			<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+				<div class="form-group">
+					<label for="exampleInputEmail1">
+						Введите название продукта :
+					</label>
+					{{form.title|add_class:"form-control"}}
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1">
+						Введите описание продукта :
+					</label>
+					{{form.description|add_class:"form-control"}}
+				</div>
+				
+				<div class="form-group">
+					<label for="exampleInputEmail1">
+						Выберите изображения :
+						{% if form.instance.photo %}
+							<span style="color: red">(На данный момент:</span>
+							<a href="{{form.instance.photo.url}}" target=”_blank”>Посмотреть</a>)
+							<span style="color: red"> *</span>
+							<input type="hidden" id="photo-exists" value="true">
+						{% endif %}
+					</label>
+					{{form.photo|add_class:"form-control"}}
+				</div>
+
+				<div class="form-group">
+					<label for="exampleInputEmail1">
+						Выберите категорию :
+					</label>
+					{{form.category|add_class:"form-control"}}
+				</div>
+
+				<div class="form-group">
+					<label for="exampleInputEmail1">
+						Стоимость :
+					</label>
+					{{form.price|add_class:"form-control"}}
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1">Прежная цена (при акции): </label>
+					{{form.old_price|add_class:"form-control"}}
+				</div>				
+				<hr>
+				<input type="submit" class="btn btn-sm btn-success" value="сохранить">
+			</div>
+		</div>
+	</div>
+</form>
